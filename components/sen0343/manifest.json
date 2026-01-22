@@ -1,9 +1,11 @@
 {
-  "domain": "sen0343",
   "name": "SEN0343 Differential Pressure Sensor",
+  "domain": "sen0343",
   "version": "1.0.0",
-  "documentation": "https://github.com/OzNem/sen0343",
-  "requirements": [],
-  "dependencies": [],
-  "codeowners": ["@OzNem"]
+  "build": {
+    "include": [
+      "sen0343_sensor.h"
+    ]
+  }
 }
+
