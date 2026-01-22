@@ -13,8 +13,7 @@ sen0343_ns = cg.esphome_ns.namespace("sen0343")
 SEN0343Sensor = sen0343_ns.class_("SEN0343Sensor", sensor.Sensor, cg.PollingComponent)
 
 CONFIG_SCHEMA = (
-    sensor.sensor_schema(UNIT_PASCAL, ICON_GAUGE, 1)
-    .extend(
+    cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(SEN0343Sensor),
             cv.Required(CONF_ADDRESS): cv.i2c_address,
@@ -22,6 +21,13 @@ CONFIG_SCHEMA = (
         }
     )
     .extend(i2c.i2c_device_schema(0x28))
+    .extend(
+        sensor.sensor_schema(
+            unit_of_measurement=UNIT_PASCAL,
+            icon=ICON_GAUGE,
+            accuracy_decimals=1,
+        )
+    )
 )
 
 async def to_code(config):
