@@ -10,7 +10,13 @@ from esphome.const import (
 )
 
 sen0343_ns = cg.esphome_ns.namespace("sen0343")
-SEN0343Sensor = sen0343_ns.class_("SEN0343Sensor", sensor.Sensor, cg.PollingComponent)
+
+# IMPORTANT: PollingComponent must come first
+SEN0343Sensor = sen0343_ns.class_(
+    "SEN0343Sensor",
+    cg.PollingComponent,
+    sensor.Sensor
+)
 
 CONFIG_SCHEMA = (
     cv.Schema(
