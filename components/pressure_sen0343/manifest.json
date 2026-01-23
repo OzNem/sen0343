@@ -1,6 +1,6 @@
 {
   "name": "SEN0343 Differential Pressure Sensor",
-  "domain": "sen0343",
+  "domain": "pressure_sen0343",
   "version": "1.0.0",
   "build": {
     "include": [

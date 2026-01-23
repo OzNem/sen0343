@@ -9,7 +9,7 @@ from esphome.const import (
     ICON_GAUGE,
 )
 
-sen0343_ns = cg.esphome_ns.namespace("sen0343")
+sen0343_ns = cg.esphome_ns.namespace("pressure_sen0343")
 
 # IMPORTANT: PollingComponent must come first
 SEN0343Sensor = sen0343_ns.class_(
