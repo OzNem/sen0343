@@ -1,45 +1,33 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import i2c, sensor
+
+from esphome.components import sensor, i2c
 from esphome.const import (
     CONF_ID,
     CONF_ADDRESS,
     CONF_UPDATE_INTERVAL,
     UNIT_PASCAL,
-    ICON_GAUGE,
+    DEVICE_CLASS_PRESSURE,
 )
+from esphome import automation
 
-sen0343_ns = cg.esphome_ns.namespace("sen0343")
+DEPENDENCIES = ['i2c']
+AUTO_LOAD = ['i2c']
 
-# IMPORTANT: PollingComponent must come first
-SEN0343Sensor = sen0343_ns.class_(
-    "SEN0343Sensor",
-    cg.PollingComponent,
-    sensor.Sensor
-)
+from . import sen0343_ns, SEN0343
 
-CONFIG_SCHEMA = (
-    cv.Schema(
-        {
-            cv.GenerateID(): cv.declare_id(SEN0343Sensor),
-            cv.Required(CONF_ADDRESS): cv.i2c_address,
-            cv.Optional(CONF_UPDATE_INTERVAL, default="5s"): cv.update_interval,
-        }
-    )
-    .extend(i2c.i2c_device_schema(0x28))
-    .extend(
-        sensor.sensor_schema(
-            unit_of_measurement=UNIT_PASCAL,
-            icon=ICON_GAUGE,
-            accuracy_decimals=1,
-        )
-    )
-)
+CONF_PRESSURE = 'pressure'
+
+# sensor platform schema: reuse sensor.SENSOR_SCHEMA so user can set id, name, update_interval, filters, etc.
+PLATFORM_SCHEMA = sensor.SENSOR_SCHEMA.extend({
+    cv.GenerateID(): cv.declare_id(SEN0343),
+    cv.Optional(CONF_ADDRESS, default=0x28): cv.hex_uint8_t,
+}).extend(cv.COMPONENT_SCHEMA)
 
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID], SEN0343)
     await cg.register_component(var, config)
     await sensor.register_sensor(var, config)
-    await i2c.register_i2c_device(var, config)
 
-    cg.add(var.set_address(config[CONF_ADDRESS]))
+    address = config.get(CONF_ADDRESS)
+    cg.add(var.set_address(address))
