@@ -1,11 +1,9 @@
 {
-  "name": "SEN0343 Differential Pressure Sensor",
-  "domain": "sen0343",
-  "version": "1.0.0",
-  "build": {
-    "include": [
-      "sen0343_sensor.h"
-    ]
-  }
+  "name": "sen0343",
+  "version": "0.1.0",
+  "esphome_version": ">=2024.0.0",
+  "dependencies": ["i2c"],
+  "codeowners": ["@OzNem"]
 }
+
 
