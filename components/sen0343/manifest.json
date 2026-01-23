@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "esphome_version": ">=2024.0.0",
   "dependencies": ["i2c"],
-  "codeowners": ["@OzNem"]
+  "codeowners": ["@OzNem"],
+  "files": [
+    "src/sen0343.cpp",
+    "src/sen0343.h"
+  ],
+  "platforms": ["esp32"]
 }
-
-
