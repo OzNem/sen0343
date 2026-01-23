@@ -34,7 +34,7 @@ void SEN0343Sensor::update() {
 
   int32_t signed_raw;
   if (raw24 & 0x800000) {
-    signed_raw = (int32_t)(raw24 | 0xFF000000);
+    signed_raw = (int32_t)(raw24 | 0xFF000000);  // sign-extend
   } else {
     signed_raw = (int32_t)raw24;
   }
