@@ -1,3 +1,5 @@
+# sen0343/sensor.py 
+
 import esphome.codegen as cg
 import esphome.config_validation as cv
 
@@ -16,12 +18,12 @@ AUTO_LOAD = ['i2c']
 
 from . import sen0343_ns, SEN0343
 
-CONF_PRESSURE = 'pressure'
+CONF_SCALE_FACTOR = 'scale_factor'
 
-# sensor platform schema: reuse sensor.SENSOR_SCHEMA so user can set id, name, update_interval, filters, etc.
 PLATFORM_SCHEMA = sensor.SENSOR_SCHEMA.extend({
     cv.GenerateID(): cv.declare_id(SEN0343),
-    cv.Optional(CONF_ADDRESS, default=0x28): cv.hex_uint8_t,
+    cv.Optional(CONF_ADDRESS, default=0x01): cv.hex_uint8_t,  # default register/address can be overridden in YAML
+    cv.Optional(CONF_SCALE_FACTOR, default=64.0): cv.float_,
 }).extend(cv.COMPONENT_SCHEMA)
 
 async def to_code(config):
@@ -31,3 +33,6 @@ async def to_code(config):
 
     address = config.get(CONF_ADDRESS)
     cg.add(var.set_address(address))
+
+    scale = config.get(CONF_SCALE_FACTOR)
+    cg.add(var.set_scale_factor(scale))
