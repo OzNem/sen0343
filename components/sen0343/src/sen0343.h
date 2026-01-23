@@ -7,13 +7,15 @@ namespace sen0343 {
 
 class SEN0343 : public PollingComponent, public sensor::Sensor {
  public:
-  explicit SEN0343() : PollingComponent(15000) {}  // default 15s polling; overridden by YAML update_interval
+  explicit SEN0343() : PollingComponent(15000) {}  // default 15s polling
   void set_address(uint8_t address) { address_ = address; }
+  void set_scale_factor(float scale) { scale_factor_ = scale; }
   void setup() override;
   void update() override;
 
  protected:
-  uint8_t address_{0x28};
+  uint8_t address_{0x01};  // default reading register/address (user can override)
+  float scale_factor_{64.0f};
   i2c::I2CDevice *i2c_{nullptr};
 };
 
