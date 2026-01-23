@@ -1,23 +1,24 @@
 #pragma once
 
-#include "esphome.h"
+#include "esphome/core/component.h"
+#include "esphome/components/sensor/sensor.h"
+#include "esphome/components/i2c/i2c.h"
 
-namespace esphome {
 namespace sen0343 {
 
-class SEN0343 : public PollingComponent, public sensor::Sensor {
+class SEN0343Sensor : public esphome::PollingComponent, public esphome::sensor::Sensor {
  public:
-  explicit SEN0343() : PollingComponent(15000) {}  // default 15s polling
+  SEN0343Sensor() : PollingComponent(15000) {}  // default 15s
   void set_address(uint8_t address) { address_ = address; }
   void set_scale_factor(float scale) { scale_factor_ = scale; }
+
   void setup() override;
   void update() override;
 
  protected:
-  uint8_t address_{0x01};  // default reading register/address (user can override)
+  uint8_t address_{0x58};  // default I2C address
   float scale_factor_{64.0f};
-  i2c::I2CDevice *i2c_{nullptr};
+  esphome::i2c::I2CDevice *i2c_{nullptr};
 };
 
 }  // namespace sen0343
-}  // namespace esphome
